@@ -1,0 +1,17 @@
+pyproject.toml
+
+[tool.poetry]
+name = "vision-agent-project5"
+version = "1.0.0"
+description = "An application for video collection, panorama creation, and saving using PyQt5 and OpenCV"
+authors = ["Your Name youremail@example.com"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+PyQt5 = ""
+opencv-python = ""
+numpy = "*"
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
