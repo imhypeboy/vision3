@@ -18,21 +18,21 @@ class Panorama(QMainWindow):
         self.central_widget.setLayout(self.layout)
 
         self.collectButton = QPushButton('영상 수집', self)
-        self.collectButton.setIcon(QIcon('start_icon.png'))  # Add custom icon here
+        self.collectButton.setIcon(QIcon('start_icon.png'))
         self.showButton = QPushButton('영상 보기', self)
         self.stitchButton = QPushButton('합병', self)
         self.saveButton = QPushButton('저장', self)
         self.quitButton = QPushButton('나가기', self)
         self.label = QLabel('환영합니다!', self)
 
-        # 버튼 스타일 적용 (가시성 개선)
-        self.collectButton.setStyleSheet("background-color: #5CB85C; color: #FFFFFF; border-radius: 8px; padding: 10px; margin: 5px;")  # Green
+        # 버튼 스타일 적용
+        self.collectButton.setStyleSheet("background-color: #5CB85C; color: #FFFFFF; border-radius: 8px; padding: 10px; margin: 5px;")
         self.showButton.setStyleSheet("background-color: #5CB85C; color: #FFFFFF; border-radius: 8px; padding: 10px; margin: 5px;")
         self.stitchButton.setStyleSheet("background-color: #5CB85C; color: #FFFFFF; border-radius: 8px; padding: 10px; margin: 5px;")
-        self.saveButton.setStyleSheet("background-color: #5BC0DE; color: #FFFFFF; border-radius: 8px; padding: 10px; margin: 5px;")  # Blue
-        self.quitButton.setStyleSheet("background-color: #D9534F; color: #FFFFFF; border-radius: 8px; padding: 10px; margin: 5px;")  # Red
+        self.saveButton.setStyleSheet("background-color: #5BC0DE; color: #FFFFFF; border-radius: 8px; padding: 10px; margin: 5px;")
+        self.quitButton.setStyleSheet("background-color: #D9534F; color: #FFFFFF; border-radius: 8px; padding: 10px; margin: 5px;")
 
-        # 버튼과 레이블을 레이아웃에 추가
+        # 버튼과 레이블 추가
         self.layout.addWidget(self.collectButton)
         self.layout.addWidget(self.showButton)
         self.layout.addWidget(self.stitchButton)
@@ -100,8 +100,13 @@ class Panorama(QMainWindow):
             self.label.setText('파노라마 제작에 실패했습니다. 다시 시도하세요.')
 
     def saveFunction(self):
-        fname, _ = QFileDialog.getSaveFileName(self, '파일 저장', './')
+        fname, _ = QFileDialog.getSaveFileName(self, '파일 저장', './', 'PNG Files (*.png);;JPEG Files (*.jpg)')
         if fname:
+            # 확장자가 없는 경우 기본 확장자로 추가
+            if not (fname.endswith('.png') or fname.endswith('.jpg') or fname.endswith('.jpeg')):
+                fname += '.png'
+
+            # 이미지 저장
             if cv.imwrite(fname, self.img_stitched):
                 self.label.setText(f'{fname}에 저장되었습니다.')
             else:
@@ -117,4 +122,4 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     win = Panorama()
     win.show()
-    app.exec_() 
+    app.exec_()
